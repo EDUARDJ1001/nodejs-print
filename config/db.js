@@ -3,28 +3,28 @@ import mysql from 'mysql2/promise';
 
 dotenv.config();
 
-let pool;
+let connection;
 
 const connectDB = async () => {
-    if (!pool) {
+    if (!connection) {
         try {
-            pool = mysql.createPool({
-                host: process.env.MYSQL_ADDON_HOST,
-                user: process.env.MYSQL_ADDON_USER,
-                password: process.env.MYSQL_ADDON_PASSWORD,
-                database: process.env.MYSQL_ADDON_DB,
-                port: process.env.MYSQL_ADDON_PORT,
+            connection = await mysql.createConnection({
+                host: process.env.DB_HOST,
+                user: process.env.DB_USER,
+                password: process.env.DB_PASSWORD,
+                database: process.env.DB_NAME,
+                port: process.env.DB_PORT,
                 waitForConnections: true,
                 connectionLimit: 10,
                 queueLimit: 0
             });
-            console.log('Conexión exitosa al pool de base de datos.');
+            console.log('Conexión exitosa a la base de datos.');
         } catch (err) {
-            console.error('Error al conectar al pool de base de datos:', err);
+            console.error('Error al conectar a la base de datos:', err);
             throw err;
         }
     }
-    return pool;
+    return connection;
 };
 
 export default connectDB;
