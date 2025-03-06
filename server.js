@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import registerRoutes from './routes/index.js';
+import printerRoutes from './routes/printRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -26,6 +27,7 @@ app.get('/', (req, res) => {
     `);
 });
 
+app.use('/api', printerRoutes);
 registerRoutes(app);
 
 const PORT = process.env.PORT || 4000;
